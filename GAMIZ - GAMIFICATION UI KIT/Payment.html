@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GAMIZ — Pembayaran</title>
+<link rel="stylesheet" href="assets/gamiz.css">
+<style>
+.pay-wrap{max-width:760px;margin:0 auto;padding:0 24px 40px;}
+
+/* stepper */
+.stepper{display:flex;align-items:center;justify-content:center;margin:38px 0 30px;}
+.stp{display:flex;flex-direction:column;align-items:center;gap:9px;position:relative;}
+.stp .dot{width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-family:'Space Grotesk';font-weight:700;
+  font-size:17px;border:2.5px solid var(--line-2);background:#fff;color:var(--muted);transition:.3s;}
+.stp.done .dot,.stp.active .dot{background:var(--grad-primary);color:#fff;border-color:transparent;box-shadow:var(--sh-primary);}
+.stp.active .dot{animation:pulseGlow 2s infinite;}
+.stp .lb{font-size:13px;font-weight:700;color:var(--muted);font-family:'Space Grotesk';}
+.stp.active .lb,.stp.done .lb{color:var(--primary);}
+.stp-line{width:120px;height:3px;border-radius:99px;background:var(--line-2);margin:0 6px 26px;position:relative;overflow:hidden;}
+.stp-line.fill::after{content:"";position:absolute;inset:0;background:var(--grad-primary);}
+
+/* countdown alert */
+.alert{display:flex;align-items:center;gap:15px;background:linear-gradient(120deg,#FFF7E6,#FFFBF0);border:1.5px solid #FACC1566;
+  border-radius:var(--r-lg);padding:18px 20px;margin-bottom:20px;box-shadow:var(--sh-sm);}
+.alert-ic{width:46px;height:46px;border-radius:50%;background:var(--grad-gold);display:grid;place-items:center;color:#5b3d00;flex-shrink:0;box-shadow:var(--sh-gold);}
+.alert b{font-size:16px;display:block;}
+.alert .ct{font-size:13.5px;color:var(--ink-2);margin-top:2px;}
+.alert .ct b{display:inline;font-family:'Space Grotesk';color:var(--danger);}
+
+/* order summary */
+.order{display:flex;align-items:center;gap:15px;background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
+  padding:18px 22px;margin-bottom:20px;box-shadow:var(--sh);}
+.order .op{width:54px;height:54px;border-radius:14px;display:grid;place-items:center;color:#fff;flex-shrink:0;
+  background:linear-gradient(135deg,#F97316,#EF4444);box-shadow:var(--sh-sm);}
+.order .op .gi{font-family:'Space Grotesk';font-weight:700;font-size:18px;}
+.order .oi b{font-family:'Space Grotesk';font-size:16px;}
+.order .oi span{font-size:13px;color:var(--muted);display:block;margin-top:2px;}
+.order .ot{margin-left:auto;text-align:right;}
+.order .ot small{font-size:12px;color:var(--muted);display:block;}
+.order .ot b{font-family:'Space Grotesk';font-size:22px;color:var(--primary);}
+
+/* qris card */
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:28px;box-shadow:var(--sh);margin-bottom:20px;}
+.qcard>h3{text-align:center;font-size:21px;font-weight:700;}
+.qcard>.csub{text-align:center;color:var(--muted);font-size:13.5px;margin:6px 0 22px;}
+.qbox{background:var(--surface-soft);border:1.5px dashed var(--line-2);border-radius:var(--r-lg);padding:26px;text-align:center;}
+.qbox h4{font-size:16px;font-weight:700;}
+.qbox p{font-size:12.5px;color:var(--muted);margin:6px 0 20px;line-height:1.5;}
+.qframe{width:230px;height:230px;margin:0 auto;background:#fff;border-radius:var(--r);padding:14px;box-shadow:var(--sh-md);position:relative;}
+.qframe::before,.qframe::after{content:"";position:absolute;width:26px;height:26px;border:3px solid var(--primary);}
+.qframe::before{top:-2px;left:-2px;border-right:none;border-bottom:none;border-radius:8px 0 0 0;}
+.qframe::after{bottom:-2px;right:-2px;border-left:none;border-top:none;border-radius:0 0 8px 0;}
+.qris-logo{display:flex;align-items:center;justify-content:center;gap:7px;margin-bottom:10px;}
+.qris-logo b{font-family:'Space Grotesk';font-weight:700;font-size:13px;color:var(--ink);letter-spacing:.06em;}
+.qris-logo .dot{width:7px;height:7px;border-radius:50%;background:var(--danger);}
+.dl-qris{margin-top:20px;}
+
+/* steps how-to */
+.qsteps{background:var(--surface-soft);border:1px solid var(--line);border-radius:var(--r-lg);padding:22px;margin-top:18px;}
+.qsteps h4{font-size:15px;margin-bottom:16px;}
+.qsteps ol{list-style:none;margin:0;padding:0;counter-reset:q;display:flex;flex-direction:column;gap:13px;}
+.qsteps li{counter-increment:q;display:flex;gap:13px;font-size:14px;color:var(--ink-2);align-items:center;}
+.qsteps li::before{content:counter(q);flex-shrink:0;width:26px;height:26px;border-radius:50%;background:var(--grad-primary);
+  color:#fff;display:grid;place-items:center;font-family:'Space Grotesk';font-weight:700;font-size:12px;box-shadow:var(--sh-sm);}
+.qtip{display:flex;align-items:center;gap:10px;background:#ECF6FF;border:1px solid #BAE0FF;border-radius:var(--r);
+  padding:13px 16px;margin-top:16px;font-size:13px;color:var(--primary-700);font-weight:600;}
+.qtip svg{flex-shrink:0;color:var(--accent);}
+
+/* status card */
+.status{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-xl);padding:24px;box-shadow:var(--sh);}
+.srow{display:flex;justify-content:space-between;align-items:center;padding:11px 0;}
+.srow+.srow{border-top:1px solid var(--line);}
+.srow .k{font-size:14px;color:var(--muted);font-weight:600;}
+.srow .v{font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px;font-family:'Space Grotesk';}
+.badge-unpaid{border:1.5px solid var(--primary);color:var(--primary);font-weight:700;font-size:11px;padding:6px 13px;border-radius:99px;letter-spacing:.04em;}
+.copy-btn{color:var(--muted);transition:.2s;}.copy-btn:hover{color:var(--primary);}
+.check-btn{margin-top:18px;}
+
+@media(max-width:560px){
+ .stp-line{width:54px;}.order{flex-wrap:wrap;}.order .ot{margin-left:0;text-align:left;}
+}
+</style>
+</head>
+<body>
+<script>(function(){try{var t=localStorage.getItem('gz_theme')||'arcade';document.body.classList.add('theme-'+t);var a=localStorage.getItem('gz_accent');if(a)document.documentElement.style.setProperty('--accent',a);}catch(e){document.body.classList.add('theme-arcade');}})();</script>
+<div data-gz-header="order"></div>
+
+<main class="pay-wrap" data-screen-label="Payment Page">
+  <!-- stepper -->
+  <div class="stepper">
+    <div class="stp active"><div class="dot">1</div><div class="lb">Bayar</div></div>
+    <div class="stp-line"></div>
+    <div class="stp"><div class="dot">2</div><div class="lb">Diproses</div></div>
+    <div class="stp-line"></div>
+    <div class="stp"><div class="dot">3</div><div class="lb">Selesai</div></div>
+  </div>
+
+  <!-- alert -->
+  <div class="alert">
+    <div class="alert-ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+    <div><b>Bayar transaksi kamu, yuk!</b><div class="ct">Batas waktu bayar <b id="pay-count">23:59:47</b></div></div>
+  </div>
+
+  <!-- order -->
+  <div class="order">
+    <div class="op"><span class="gi">FF</span></div>
+    <div class="oi"><b>Frontline Fire</b><span>Membership Mingguan</span></div>
+    <div class="ot"><small>Total pembayaran</small><b>Rp 26.920</b></div>
+  </div>
+
+  <!-- qris -->
+  <div class="qcard">
+    <h3>Bayar dengan QRIS</h3>
+    <p class="csub">Lakukan pembayaran pesanan melalui metode di bawah ini</p>
+    <div class="qbox">
+      <h4>Scan kode QRIS</h4>
+      <p>Scan kode QR / download QR / screenshot QR di bawah ini dengan aplikasi digital wallet untuk membayar</p>
+      <div class="qframe">
+        <div class="qris-logo"><span class="dot"></span><b>QRIS</b></div>
+        <canvas id="qr" width="200" height="200" style="width:100%;height:auto"></canvas>
+      </div>
+      <button class="btn btn-primary btn-block dl-qris" id="dl-qris">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/></svg>
+        Download QRIS
+      </button>
+    </div>
+
+    <div class="qsteps">
+      <h4>Cara melakukan pembayaran e-wallet dengan 1 HP :</h4>
+      <ol>
+        <li>Screenshot QR code pembayaran</li>
+        <li>Buka e-wallet (ovo/gopay/dana/shopee/link aja)</li>
+        <li>Tekan tombol scan</li>
+        <li>Pilih upload gambar atau ambil gambar dari gallery</li>
+        <li>Lalu pilih gambar yang tadi di screenshot</li>
+        <li>Lakukan pembayaran</li>
+        <li>Diamond akan langsung masuk, silahkan dicek di game</li>
+      </ol>
+      <div class="qtip"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.1h6c0-.8.4-1.6 1-2.1A7 7 0 0 0 12 2Z"/></svg> Tips: Pastikan koneksi internet stabil dan QR code terlihat jelas saat scan</div>
+    </div>
+  </div>
+
+  <!-- status -->
+  <div class="status">
+    <div class="srow"><span class="k">Status transaksi</span><span class="v"><span class="badge-unpaid">BELUM DIBAYAR</span></span></div>
+    <div class="srow"><span class="k">No. transaksi</span><span class="v">INV202602201346454071 <button class="copy-btn" id="copy-inv" aria-label="copy"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg></button></span></div>
+    <div class="srow"><span class="k">Waktu transaksi</span><span class="v">20 Februari 2026 - 13.46</span></div>
+    <button class="btn btn-primary btn-block btn-lg check-btn" id="check-pay">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg> Cek Pembayaran
+    </button>
+  </div>
+</main>
+
+<div data-gz-footer></div>
+
+<script src="assets/gamiz.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  GZ_countdown(document.getElementById('pay-count'),23*3600+59*60+47);
+
+  // fake QR — deterministic pattern on canvas
+  const c=document.getElementById('qr'),ctx=c.getContext('2d');const N=25,s=200/N;
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,200,200);ctx.fillStyle='#15103a';
+  let seed=20260220;const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+  for(let y=0;y<N;y++)for(let x=0;x<N;x++){if(rnd()>0.5)ctx.fillRect(x*s,y*s,s,s);}
+  // finder patterns
+  function finder(px,py){ctx.fillStyle='#fff';ctx.fillRect(px,py,s*7,s*7);ctx.fillStyle='#15103a';ctx.fillRect(px,py,s*7,s*7);
+    ctx.fillStyle='#fff';ctx.fillRect(px+s,py+s,s*5,s*5);ctx.fillStyle='#7C3AED';ctx.fillRect(px+s*2,py+s*2,s*3,s*3);ctx.fillStyle='#15103a';}
+  finder(0,0);finder(200-s*7,0);finder(0,200-s*7);
+
+  document.getElementById('copy-inv').onclick=(e)=>{
+    navigator.clipboard&&navigator.clipboard.writeText('INV202602201346454071');
+    GZ_gemPop(e.clientX,e.clientY,'Disalin ✓');
+  };
+  document.getElementById('dl-qris').onclick=(e)=>{e.preventDefault();GZ_gemPop(e.clientX,e.clientY,'QRIS ⬇');};
+  document.getElementById('check-pay').addEventListener('click',(e)=>{
+    e.preventDefault();
+    // simulate success → confetti + advance stepper
+    GZ_confetti(window.innerWidth/2,window.innerHeight/2);
+    const steps=document.querySelectorAll('.stp');const lines=document.querySelectorAll('.stp-line');
+    steps[0].classList.remove('active');steps[0].classList.add('done');
+    lines[0].classList.add('fill');steps[1].classList.add('active');
+    document.querySelector('.badge-unpaid').textContent='DIPROSES';
+    document.querySelector('.badge-unpaid').style.cssText='border-color:var(--success);color:var(--success)';
+  });
+});
+</script>
+<div id="gz-tweaks-root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="assets/tweaks-panel.jsx"></script>
+<script type="text/babel" src="assets/gz-tweaks.jsx"></script>
+</body>
+</html>
