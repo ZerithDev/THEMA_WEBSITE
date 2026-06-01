@@ -1,0 +1,2199 @@
+<!doctype html>
+<html lang="id">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Edi4Ria Revamp - Premium Wow</title>
+
+    <!-- Bootstrap 4 hanya helper class. UI utama manual CSS. -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg: #040404;
+            --bg-2: #090909;
+            --surface: #111113;
+            --surface-2: #19191c;
+            --surface-3: #232327;
+            --line: rgba(255, 255, 255, 0.10);
+            --line-soft: rgba(255, 255, 255, 0.06);
+            --text: #ffffff;
+            --muted: #b6b6bf;
+            --muted-2: #7c7c86;
+            --brand: #ef4717;
+            --brand-2: #ff7a30;
+            --brand-3: #ffb15e;
+            --brand-dark: #7f1804;
+            --brand-soft: rgba(239, 71, 23, 0.16);
+            --green: #29e384;
+            --blue: #5d7cff;
+            --purple: #9b5cff;
+            --red: #ff2020;
+            --radius: 18px;
+            --radius-lg: 30px;
+            --shadow: 0 30px 90px rgba(0, 0, 0, 0.55);
+            --glow: 0 0 0 1px rgba(239, 71, 23, 0.34), 0 22px 56px rgba(239, 71, 23, 0.23);
+            --header-offset: 122px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            color: var(--text);
+            background:
+                radial-gradient(circle at 22% -12%, rgba(239, 71, 23, 0.34), transparent 360px),
+                radial-gradient(circle at 78% 2%, rgba(157, 74, 255, 0.18), transparent 300px),
+                radial-gradient(circle at 50% 32%, rgba(255, 122, 48, 0.10), transparent 460px),
+                linear-gradient(180deg, #040404 0%, #09090a 45%, #040404 100%);
+            font-family: "Plus Jakarta Sans", Arial, sans-serif;
+            font-size: 14px;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+            background:
+                linear-gradient(rgba(255, 255, 255, 0.024) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.024) 1px, transparent 1px);
+            background-size: 64px 64px;
+            mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.75), transparent 78%);
+            pointer-events: none;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background:
+                radial-gradient(circle at center, transparent 0%, rgba(0, 0, 0, 0.46) 80%),
+                repeating-linear-gradient(180deg, rgba(255, 255, 255, 0.015) 0, rgba(255, 255, 255, 0.015) 1px, transparent 1px, transparent 5px);
+            pointer-events: none;
+        }
+
+        a,
+        a:hover {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button,
+        input {
+            font-family: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        .app {
+            min-height: 100vh;
+        }
+
+        .container-main {
+            width: min(1180px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 6, 0.80);
+            border-bottom: 1px solid var(--line-soft);
+            backdrop-filter: blur(20px);
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: -1px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(239, 71, 23, 0.85), transparent);
+            opacity: 0.85;
+        }
+
+        .header-main {
+            display: grid;
+            grid-template-columns: 92px minmax(260px, 1fr) auto;
+            gap: 18px;
+            align-items: center;
+            min-height: 64px;
+        }
+
+        .brand-logo {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+        }
+
+        .logo-mark {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 32% 22%, #ffe0a4, transparent 22%),
+                linear-gradient(135deg, var(--brand-2), var(--brand) 46%, var(--brand-dark));
+            border: 2px solid rgba(255, 255, 255, 0.16);
+            border-radius: 50%;
+            box-shadow: 0 0 34px rgba(239, 71, 23, 0.40);
+            font-size: 20px;
+            font-weight: 900;
+        }
+
+        .logo-mark::before {
+            content: "";
+            position: absolute;
+            inset: -7px;
+            border: 1px solid rgba(239, 71, 23, 0.30);
+            border-radius: 50%;
+            animation: pulseRing 2.8s infinite ease-in-out;
+        }
+
+        .logo-mark::after {
+            content: "";
+            position: absolute;
+            right: 1px;
+            bottom: 1px;
+            width: 10px;
+            height: 10px;
+            background: var(--green);
+            border: 2px solid #050505;
+            border-radius: 50%;
+            box-shadow: 0 0 16px rgba(41, 227, 132, 0.78);
+        }
+
+        @keyframes pulseRing {
+            0%, 100% {
+                transform: scale(0.92);
+                opacity: 0.35;
+            }
+
+            50% {
+                transform: scale(1.08);
+                opacity: 0.8;
+            }
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box::before {
+            content: "⌕";
+            position: absolute;
+            top: 50%;
+            left: 18px;
+            color: var(--brand-2);
+            font-size: 23px;
+            font-weight: 900;
+            transform: translateY(-50%);
+        }
+
+        .search-box input {
+            width: 100%;
+            height: 44px;
+            padding: 0 18px 0 50px;
+            color: #ffffff;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.035)),
+                rgba(18, 18, 20, 0.92);
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            outline: none;
+            box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.55), 0 16px 44px rgba(0, 0, 0, 0.24);
+            transition: 0.18s ease;
+        }
+
+        .search-box input:focus {
+            border-color: rgba(239, 71, 23, 0.72);
+            box-shadow: 0 0 0 4px rgba(239, 71, 23, 0.13), 0 18px 50px rgba(239, 71, 23, 0.14);
+        }
+
+        .search-box input::placeholder {
+            color: #85858e;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-ui {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            min-height: 40px;
+            padding: 0 18px;
+            color: #ffffff;
+            border: 0;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+            transition: 0.18s ease;
+        }
+
+        .btn-orange {
+            position: relative;
+            isolation: isolate;
+            background: linear-gradient(135deg, var(--brand-2), var(--brand), var(--brand-dark));
+            box-shadow: 0 15px 36px rgba(239, 71, 23, 0.30);
+            overflow: hidden;
+        }
+
+        .btn-orange::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.26), transparent);
+            transform: translateX(-120%);
+            transition: 0.45s ease;
+        }
+
+        .btn-orange:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 20px 48px rgba(239, 71, 23, 0.42);
+        }
+
+        .btn-orange:hover::before {
+            transform: translateX(120%);
+        }
+
+        .btn-dark-ui {
+            background: rgba(255, 255, 255, 0.07);
+            border: 1px solid var(--line);
+        }
+
+        .btn-dark-ui:hover {
+            background: rgba(255, 255, 255, 0.11);
+        }
+
+        .nav-wrap {
+            background: rgba(255, 255, 255, 0.035);
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 8px;
+            min-height: 48px;
+            align-items: center;
+            overflow-x: auto;
+            scrollbar-width: none;
+        }
+
+        .nav-menu::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 34px;
+            padding: 0 13px;
+            color: var(--muted);
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 900;
+            white-space: nowrap;
+            transition: 0.18s ease;
+        }
+
+        .nav-btn.active,
+        .nav-btn:hover {
+            color: #ffffff;
+            background: rgba(0, 0, 0, 0.70);
+            border-color: rgba(239, 71, 23, 0.36);
+            box-shadow: inset 0 -2px 0 var(--brand);
+        }
+
+        .nav-icon {
+            color: var(--brand-2);
+        }
+
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .banner-section {
+            position: relative;
+            padding: 42px 0 30px;
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), transparent);
+        }
+
+        .banner-shell {
+            position: relative;
+            padding: 10px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.02)),
+                rgba(255, 255, 255, 0.035);
+            border: 1px solid var(--line);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .banner-shell::before {
+            content: "";
+            position: absolute;
+            inset: -2px;
+            z-index: 0;
+            background: conic-gradient(from 160deg, transparent, rgba(239, 71, 23, 0.70), transparent 30%, rgba(157, 74, 255, 0.55), transparent 62%, rgba(255, 177, 94, 0.55), transparent);
+            opacity: 0.55;
+            filter: blur(18px);
+            animation: rotateGlow 9s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .banner-viewport {
+            position: relative;
+            z-index: 2;
+            overflow: hidden;
+            border-radius: 18px;
+            background: #090909;
+        }
+
+        .banner-track {
+            display: flex;
+            width: 300%;
+            animation: bannerSlide 16s infinite ease-in-out;
+        }
+
+        @keyframes bannerSlide {
+            0%, 27% {
+                transform: translateX(0);
+            }
+
+            35%, 60% {
+                transform: translateX(-33.333%);
+            }
+
+            68%, 92% {
+                transform: translateX(-66.666%);
+            }
+
+            100% {
+                transform: translateX(0);
+            }
+        }
+
+        .banner-image {
+            position: relative;
+            flex: 0 0 33.333%;
+            min-height: clamp(150px, 21vw, 265px);
+            background-size: cover;
+            background-position: center;
+            transform: scale(1.01);
+            animation: bannerZoom 8s infinite alternate ease-in-out;
+            overflow: hidden;
+        }
+
+        @keyframes bannerZoom {
+            from {
+                background-position: 50% 50%;
+            }
+
+            to {
+                background-position: 54% 46%;
+            }
+        }
+
+        .banner-image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(90deg, rgba(5, 5, 5, 0.72), transparent 18%, transparent 82%, rgba(5, 5, 5, 0.72)),
+                radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.20), transparent 48%);
+            pointer-events: none;
+        }
+
+        .banner-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.26) 44%, transparent 58%);
+            transform: translateX(-110%);
+            animation: shine 4.2s infinite ease-in-out;
+        }
+
+        @keyframes shine {
+            0%, 45% {
+                transform: translateX(-110%);
+            }
+
+            78%, 100% {
+                transform: translateX(110%);
+            }
+        }
+
+        .banner-1 {
+            background-image:
+                radial-gradient(circle at 22% 42%, rgba(255, 255, 255, 0.24), transparent 72px),
+                radial-gradient(circle at 44% 44%, rgba(91, 81, 255, 0.50), transparent 140px),
+                radial-gradient(circle at 70% 38%, rgba(239, 71, 23, 0.42), transparent 170px),
+                linear-gradient(135deg, #101b3e 0%, #2a1148 36%, #070707 70%, #7d1e07 100%);
+        }
+
+        .banner-2 {
+            background-image:
+                radial-gradient(circle at 48% 38%, rgba(255, 255, 255, 0.24), transparent 76px),
+                radial-gradient(circle at 18% 44%, rgba(255, 119, 47, 0.48), transparent 130px),
+                radial-gradient(circle at 74% 52%, rgba(70, 137, 255, 0.34), transparent 150px),
+                linear-gradient(135deg, #081d32 0%, #151515 50%, #831f08 100%);
+        }
+
+        .banner-3 {
+            background-image:
+                radial-gradient(circle at 72% 42%, rgba(255, 255, 255, 0.26), transparent 82px),
+                radial-gradient(circle at 42% 34%, rgba(155, 92, 255, 0.48), transparent 140px),
+                radial-gradient(circle at 14% 64%, rgba(239, 71, 23, 0.38), transparent 130px),
+                linear-gradient(135deg, #2a1038 0%, #080808 54%, #a62b0a 100%);
+        }
+
+        .banner-dots {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+        }
+
+        .banner-dots span {
+            width: 28px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.42);
+            border-radius: 999px;
+        }
+
+        .banner-dots .active {
+            width: 48px;
+            background: linear-gradient(90deg, var(--brand), var(--brand-3));
+            box-shadow: 0 0 20px rgba(239, 71, 23, 0.65);
+        }
+
+        .section {
+            padding: 34px 0;
+        }
+
+        .section-block-dark {
+            background:
+                radial-gradient(circle at 10% 0%, rgba(239, 71, 23, 0.10), transparent 240px),
+                rgba(255, 255, 255, 0.045);
+        }
+
+        .section-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            color: var(--brand-2);
+            font-size: 25px;
+            font-weight: 900;
+            letter-spacing: -0.06em;
+            text-shadow: 0 0 26px rgba(239, 71, 23, 0.18);
+        }
+
+        .section-title span {
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--brand-2), var(--brand-dark));
+            border-radius: 9px;
+            font-size: 13px;
+            box-shadow: 0 12px 28px rgba(239, 71, 23, 0.28);
+        }
+
+        .filter-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 9px;
+        }
+
+        .filter-tab {
+            min-height: 31px;
+            padding: 0 15px;
+            color: #ffd7ca;
+            background: rgba(239, 71, 23, 0.08);
+            border: 1px solid rgba(239, 71, 23, 0.32);
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            transition: 0.18s ease;
+        }
+
+        .filter-tab.active,
+        .filter-tab:hover {
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+            border-color: transparent;
+            box-shadow: 0 12px 28px rgba(239, 71, 23, 0.22);
+        }
+
+        .game-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 16px;
+        }
+
+        .game-card {
+            position: relative;
+            min-height: 226px;
+            padding: 7px;
+            background:
+                linear-gradient(145deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.02)),
+                #070707;
+            border: 1px solid rgba(255, 255, 255, 0.095);
+            border-radius: 18px;
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.38);
+            overflow: hidden;
+            cursor: pointer;
+            transform: translateZ(0);
+            transition: 0.22s ease;
+        }
+
+        .game-card:hover {
+            transform: translateY(-7px) scale(1.018);
+            border-color: rgba(239, 71, 23, 0.66);
+            box-shadow: var(--glow);
+        }
+
+        .game-card::before {
+            content: "";
+            position: absolute;
+            top: 7px;
+            right: 7px;
+            z-index: 5;
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--brand-3), var(--brand));
+            clip-path: polygon(100% 0, 0 0, 100% 100%);
+            border-top-right-radius: 12px;
+        }
+
+        .game-card::after {
+            content: "";
+            position: absolute;
+            right: 7px;
+            bottom: 7px;
+            z-index: 5;
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, transparent, var(--brand));
+            clip-path: polygon(100% 0, 0 100%, 100% 100%);
+            border-bottom-right-radius: 12px;
+            opacity: 0.98;
+        }
+
+        .game-image {
+            position: relative;
+            height: 157px;
+            background-image: var(--image);
+            background-size: cover;
+            background-position: center;
+            border-radius: 13px;
+            overflow: hidden;
+        }
+
+        .game-image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.18), transparent 42%),
+                linear-gradient(180deg, transparent 38%, rgba(0, 0, 0, 0.78));
+            transition: 0.22s ease;
+        }
+
+        .game-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.18) 45%, transparent 60%);
+            transform: translateX(-120%);
+            transition: 0.42s ease;
+        }
+
+        .game-card:hover .game-image::after {
+            transform: translateX(120%);
+        }
+
+        .game-card:hover .game-image::before {
+            background:
+                radial-gradient(circle at 50% 28%, rgba(255, 255, 255, 0.28), transparent 42%),
+                linear-gradient(180deg, transparent 30%, rgba(0, 0, 0, 0.86));
+        }
+
+        .game-art-title {
+            position: absolute;
+            inset: 0;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            color: #ffffff;
+            text-align: center;
+            font-size: 21px;
+            font-weight: 900;
+            line-height: 1.02;
+            letter-spacing: -0.06em;
+            text-shadow: 0 10px 25px rgba(0, 0, 0, 0.90);
+            opacity: 0.96;
+        }
+
+        .game-title-bar {
+            position: relative;
+            z-index: 4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 43px;
+            margin: -12px 8px 0;
+            padding: 8px 10px;
+            color: #ffffff;
+            background:
+                linear-gradient(90deg, rgba(255, 255, 255, 0.14), transparent 42%),
+                linear-gradient(135deg, var(--brand-2), var(--brand), var(--brand-dark));
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 900;
+            line-height: 1.25;
+            box-shadow: 0 14px 30px rgba(239, 71, 23, 0.20);
+            transition: 0.22s ease;
+        }
+
+        .game-card:hover .game-title-bar {
+            transform: translateY(-2px);
+            box-shadow: 0 18px 38px rgba(239, 71, 23, 0.30);
+        }
+
+        .game-instant {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-height: 30px;
+            margin: 8px 10px 2px;
+            padding: 7px 10px;
+            color: #dfffee;
+            background: rgba(0, 0, 0, 0.58);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            border-radius: 999px;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .game-instant::before {
+            content: "";
+            width: 7px;
+            height: 7px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 14px rgba(41, 227, 132, 0.82);
+        }
+
+        .game-card.service-card {
+            min-height: 250px;
+        }
+
+        .game-card.service-card .game-image {
+            height: 157px;
+        }
+
+        .game-page-hero {
+            position: relative;
+            min-height: 300px;
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.02), #050505),
+                radial-gradient(circle at 72% 26%, rgba(239, 71, 23, 0.42), transparent 300px),
+                radial-gradient(circle at 30% 24%, rgba(157, 92, 255, 0.18), transparent 260px),
+                linear-gradient(135deg, #2c1645, #111112 52%, #72200a);
+            overflow: hidden;
+        }
+
+        .game-page-hero::before {
+            content: "MAGIC CHESS";
+            position: absolute;
+            right: -30px;
+            bottom: 4px;
+            color: rgba(255, 255, 255, 0.06);
+            font-size: clamp(76px, 13vw, 172px);
+            font-weight: 900;
+            letter-spacing: -0.12em;
+            line-height: 0.75;
+        }
+
+        .game-page-inner {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: flex-end;
+            min-height: 300px;
+            padding-bottom: 30px;
+        }
+
+        .game-cover {
+            display: grid;
+            place-items: center;
+            width: 176px;
+            height: 214px;
+            margin-right: 22px;
+            background:
+                radial-gradient(circle at 48% 24%, rgba(255, 255, 255, 0.20), transparent 62px),
+                linear-gradient(135deg, #5725a7, #141416 55%, var(--brand));
+            border: 1px solid var(--line);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            text-align: center;
+            font-size: 24px;
+            font-weight: 900;
+            line-height: 1;
+            letter-spacing: -0.06em;
+        }
+
+        .game-info h1 {
+            margin: 0 0 6px;
+            color: #ffffff;
+            font-size: clamp(28px, 4vw, 46px);
+            font-weight: 900;
+            letter-spacing: -0.07em;
+        }
+
+        .game-info p {
+            margin: 0;
+            color: #ffd1c2;
+            font-weight: 800;
+        }
+
+        .trust-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 18px 0 18px;
+        }
+
+        .trust-card {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-height: 76px;
+            padding: 14px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.035)),
+                var(--surface);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: 0 16px 38px rgba(0, 0, 0, 0.24);
+        }
+
+        .trust-icon {
+            display: grid;
+            place-items: center;
+            flex: 0 0 42px;
+            width: 42px;
+            height: 42px;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--brand-2), var(--brand-dark));
+            border-radius: 13px;
+            box-shadow: 0 12px 28px rgba(239, 71, 23, 0.24);
+            font-size: 18px;
+        }
+
+        .trust-card strong {
+            display: block;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .trust-card span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted-2);
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .order-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(350px, 0.92fr);
+            gap: 20px;
+            align-items: start;
+        }
+
+        .panel {
+            background: rgba(18, 18, 20, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            box-shadow: 0 20px 54px rgba(0, 0, 0, 0.34);
+            overflow: hidden;
+        }
+
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            padding: 15px 17px;
+            background:
+                linear-gradient(90deg, rgba(239, 71, 23, 0.15), transparent),
+                rgba(255, 255, 255, 0.025);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .panel-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 0;
+            color: #ffffff;
+            font-size: 15px;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+
+        .step-no {
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+            border-radius: 9px;
+            font-size: 12px;
+            box-shadow: 0 10px 24px rgba(239, 71, 23, 0.26);
+        }
+
+        .mini-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            min-height: 30px;
+            padding: 0 12px;
+            color: #ffd5c7;
+            background: rgba(239, 71, 23, 0.14);
+            border: 1px solid rgba(239, 71, 23, 0.33);
+            border-radius: 999px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .nominal-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            padding: 15px;
+        }
+
+        .nominal-card {
+            position: relative;
+            display: grid;
+            grid-template-columns: 52px minmax(0, 1fr);
+            gap: 12px;
+            align-items: center;
+            min-height: 78px;
+            padding: 12px;
+            background:
+                linear-gradient(135deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.025)),
+                #080809;
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: 0.18s ease;
+        }
+
+        .nominal-card:hover,
+        .nominal-card.active {
+            transform: translateY(-2px);
+            border-color: rgba(239, 71, 23, 0.60);
+            box-shadow: var(--glow);
+        }
+
+        .nominal-card.active::after {
+            content: "✓";
+            position: absolute;
+            top: 9px;
+            right: 9px;
+            display: grid;
+            place-items: center;
+            width: 20px;
+            height: 20px;
+            color: #ffffff;
+            background: var(--brand);
+            border-radius: 50%;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .nominal-icon {
+            display: grid;
+            place-items: center;
+            width: 52px;
+            height: 52px;
+            background: #151517;
+            border: 1px solid var(--line);
+            border-radius: 11px;
+            font-size: 23px;
+        }
+
+        .nominal-name {
+            max-width: calc(100% - 22px);
+            margin: 0 0 5px;
+            color: #ffffff;
+            font-size: 12px;
+            font-weight: 900;
+            line-height: 1.35;
+        }
+
+        .old-price {
+            display: inline-block;
+            margin-bottom: 3px;
+            padding: 2px 7px;
+            color: #ffffff;
+            background: var(--brand);
+            border-radius: 999px;
+            font-size: 10px;
+            font-weight: 900;
+            text-decoration: line-through;
+        }
+
+        .price {
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .side {
+            position: sticky;
+            top: calc(var(--header-offset) + 14px);
+            display: grid;
+            gap: 14px;
+        }
+
+        .pad {
+            padding: 15px;
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .input,
+        .login-input {
+            width: 100%;
+            height: 46px;
+            padding: 0 14px;
+            color: #ffffff;
+            background: #080809;
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            outline: none;
+            transition: 0.18s ease;
+        }
+
+        .input:focus,
+        .login-input:focus {
+            border-color: rgba(239, 71, 23, 0.68);
+            box-shadow: 0 0 0 4px rgba(239, 71, 23, 0.12);
+        }
+
+        .input::placeholder,
+        .login-input::placeholder {
+            color: #77777e;
+        }
+
+        .hint {
+            margin: 9px 0 0;
+            color: var(--muted-2);
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1.65;
+        }
+
+        .pay-list {
+            display: grid;
+            gap: 10px;
+            padding: 15px;
+        }
+
+        .pay-card {
+            display: grid;
+            grid-template-columns: 72px 1fr auto;
+            gap: 12px;
+            align-items: center;
+            min-height: 68px;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid var(--line);
+            border-radius: 13px;
+            cursor: pointer;
+            transition: 0.18s ease;
+        }
+
+        .pay-card:hover,
+        .pay-card.active {
+            background: rgba(239, 71, 23, 0.11);
+            border-color: rgba(239, 71, 23, 0.52);
+        }
+
+        .pay-logo {
+            display: grid;
+            place-items: center;
+            height: 42px;
+            color: #ffd7a5;
+            background: #050505;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            font-size: 12px;
+            font-weight: 900;
+        }
+
+        .pay-card strong {
+            display: block;
+            font-size: 12px;
+            line-height: 1.45;
+        }
+
+        .pay-card span {
+            display: block;
+            margin-top: 3px;
+            color: var(--muted-2);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .pay-accordion {
+            display: grid;
+            gap: 9px;
+            padding: 0 15px 15px;
+        }
+
+        .pay-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 49px;
+            padding: 0 14px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.065);
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            font-weight: 900;
+        }
+
+        .checkout-area {
+            padding: 0 15px 15px;
+        }
+
+        .checkout-area .btn-ui {
+            width: 100%;
+            min-height: 52px;
+            border-radius: 13px;
+        }
+
+        .invoice-hero {
+            position: relative;
+            min-height: 310px;
+            display: grid;
+            place-items: center;
+            background:
+                linear-gradient(180deg, rgba(0, 0, 0, 0.0), #050505),
+                radial-gradient(circle at 50% 18%, rgba(239, 71, 23, 0.35), transparent 280px),
+                linear-gradient(135deg, #32160c, #101010 52%, #5c1605);
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .invoice-hero::before {
+            content: "PAYMENT";
+            position: absolute;
+            bottom: -18px;
+            color: rgba(255, 255, 255, 0.055);
+            font-size: clamp(82px, 15vw, 190px);
+            font-weight: 900;
+            letter-spacing: -0.11em;
+            line-height: 0.75;
+        }
+
+        .invoice-hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 760px;
+            padding: 0 20px;
+        }
+
+        .invoice-hero h1 {
+            margin: 14px 0 8px;
+            color: #ffffff;
+            font-size: clamp(32px, 5vw, 58px);
+            font-weight: 900;
+            letter-spacing: -0.08em;
+            line-height: 0.96;
+        }
+
+        .invoice-hero p {
+            margin: 0;
+            color: var(--muted);
+            font-weight: 750;
+        }
+
+        .invoice-hero b {
+            color: var(--brand-2);
+        }
+
+        .step-grid {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-top: -38px;
+            margin-bottom: 22px;
+        }
+
+        .step-card {
+            min-height: 94px;
+            padding: 15px;
+            background: rgba(18, 18, 20, 0.96);
+            border: 1px solid var(--line);
+            border-radius: 16px;
+            box-shadow: 0 16px 40px rgba(0, 0, 0, 0.32);
+        }
+
+        .step-top {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .step-icon {
+            display: grid;
+            place-items: center;
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+            border-radius: 12px;
+            box-shadow: 0 10px 26px rgba(239, 71, 23, 0.24);
+        }
+
+        .step-card.off .step-icon {
+            background: #454545;
+            box-shadow: none;
+        }
+
+        .step-card strong {
+            display: block;
+            font-size: 13px;
+            font-weight: 900;
+        }
+
+        .step-card span {
+            display: block;
+            margin-top: 4px;
+            color: var(--muted-2);
+            font-size: 11px;
+            font-weight: 750;
+        }
+
+        .invoice-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(350px, 0.9fr);
+            gap: 18px;
+            align-items: start;
+        }
+
+        .timer {
+            display: flex;
+            gap: 7px;
+        }
+
+        .timer span {
+            display: grid;
+            place-items: center;
+            min-width: 42px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--brand-2), var(--brand-dark));
+            border-radius: 12px;
+            font-weight: 900;
+        }
+
+        .qr-zone {
+            display: grid;
+            place-items: center;
+            margin: 22px 0;
+        }
+
+        .qr {
+            position: relative;
+            display: grid;
+            place-items: center;
+            width: 238px;
+            height: 238px;
+            background:
+                linear-gradient(90deg, #111 10px, transparent 10px) 0 0 / 22px 22px,
+                linear-gradient(#111 10px, transparent 10px) 0 0 / 22px 22px,
+                #ffffff;
+            border: 14px solid #ffffff;
+            border-radius: 18px;
+            box-shadow: var(--shadow);
+        }
+
+        .qr::before {
+            content: "QRIS";
+            display: grid;
+            place-items: center;
+            width: 86px;
+            height: 46px;
+            color: #101010;
+            background: #ffffff;
+            border: 4px solid #101010;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 900;
+        }
+
+        .detail-row {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 12px;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .detail-row span {
+            color: var(--muted-2);
+            font-weight: 750;
+        }
+
+        .detail-row strong {
+            color: #ffffff;
+            text-align: right;
+            font-weight: 900;
+        }
+
+        .guide-box {
+            margin-top: 16px;
+            padding: 18px;
+            background: rgba(255, 255, 255, 0.055);
+            border: 1px solid var(--line);
+            border-left: 4px solid var(--brand);
+            border-radius: 16px;
+        }
+
+        .guide-box h3 {
+            margin: 0 0 10px;
+            font-size: 15px;
+            font-weight: 900;
+            text-transform: uppercase;
+        }
+
+        .guide-box ol {
+            margin: 0;
+            padding-left: 19px;
+            color: var(--muted);
+            font-weight: 700;
+            line-height: 1.8;
+        }
+
+        .login-page {
+            display: grid;
+            place-items: center;
+            min-height: calc(100vh - var(--header-offset));
+            padding: 44px 0;
+        }
+
+        .login-shell {
+            display: grid;
+            grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
+            width: min(1120px, calc(100% - 32px));
+            min-height: 560px;
+            background: rgba(19, 19, 21, 0.94);
+            border: 1px solid var(--line);
+            border-radius: 34px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .login-art {
+            position: relative;
+            padding: 40px;
+            background:
+                radial-gradient(circle at 26% 18%, rgba(255, 255, 255, 0.18), transparent 80px),
+                radial-gradient(circle at 80% 40%, rgba(239, 71, 23, 0.42), transparent 260px),
+                linear-gradient(135deg, #2d0833 0%, #8a1220 42%, #9c1208 100%);
+            overflow: hidden;
+        }
+
+        .login-art::after {
+            content: "MEMBER";
+            position: absolute;
+            left: 28px;
+            bottom: 12px;
+            color: rgba(255, 255, 255, 0.09);
+            font-size: clamp(70px, 12vw, 120px);
+            font-weight: 900;
+            letter-spacing: -0.12em;
+            line-height: 0.8;
+        }
+
+        .login-art .logo-mark {
+            width: 54px;
+            height: 54px;
+            border-radius: 16px;
+            font-size: 25px;
+            transform: rotate(-7deg);
+        }
+
+        .login-art-title {
+            position: relative;
+            z-index: 2;
+            max-width: 430px;
+            margin: 50px 0 12px;
+            color: #ffffff;
+            font-size: clamp(42px, 6vw, 64px);
+            font-weight: 900;
+            letter-spacing: -0.10em;
+            line-height: 0.92;
+        }
+
+        .login-art-text {
+            position: relative;
+            z-index: 2;
+            max-width: 420px;
+            margin: 0;
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 15px;
+            font-weight: 750;
+            line-height: 1.75;
+        }
+
+        .login-form {
+            padding: 42px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)),
+                #111113;
+        }
+
+        .login-form h1 {
+            margin: 0;
+            color: #ffffff;
+            font-size: clamp(38px, 5vw, 54px);
+            font-weight: 900;
+            letter-spacing: -0.10em;
+            line-height: 0.96;
+        }
+
+        .login-form > p {
+            margin: 10px 0 28px;
+            color: #a6a6b6;
+            font-size: 15px;
+            font-weight: 800;
+        }
+
+        .field {
+            margin-bottom: 14px;
+        }
+
+        .field label {
+            display: block;
+            margin-bottom: 8px;
+            color: #dedee7;
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .login-input {
+            height: 58px;
+            padding: 0 18px;
+            background: #262629;
+            border-color: rgba(255, 255, 255, 0.14);
+            border-radius: 18px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .captcha {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            min-height: 74px;
+            margin: 20px 0;
+            padding: 16px;
+            color: #151515;
+            background: #f4f4f4;
+            border-radius: 18px;
+            font-weight: 900;
+        }
+
+        .captcha-check {
+            width: 30px;
+            height: 30px;
+            background: #ffffff;
+            border: 2px solid #777777;
+            border-radius: 5px;
+        }
+
+        .login-submit {
+            width: 100%;
+            min-height: 58px;
+            border-radius: 18px;
+            background: linear-gradient(135deg, #ff4b2b, #f01f15, #a90000);
+        }
+
+        .login-alt {
+            width: 100%;
+            min-height: 58px;
+            border-radius: 18px;
+        }
+
+        .footer {
+            margin-top: 58px;
+            background:
+                radial-gradient(circle at 42% 28%, rgba(255, 255, 255, 0.12), transparent 300px),
+                #030303;
+            border-top: 6px solid rgba(239, 71, 23, 0.56);
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1.25fr 0.8fr 0.8fr 0.8fr;
+            gap: 44px;
+            padding: 64px 0 42px;
+        }
+
+        .footer h3 {
+            margin: 14px 0 10px;
+            color: var(--brand-2);
+            font-size: 23px;
+            font-weight: 900;
+            letter-spacing: -0.06em;
+        }
+
+        .footer h4 {
+            margin: 0 0 14px;
+            color: var(--brand-2);
+            font-size: 12px;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .footer p,
+        .footer li {
+            color: #d6d6d6;
+            font-size: 13px;
+            font-weight: 700;
+            line-height: 1.75;
+        }
+
+        .footer ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .socials {
+            display: flex;
+            gap: 9px;
+        }
+
+        .socials a {
+            display: grid;
+            place-items: center;
+            width: 35px;
+            height: 35px;
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 900;
+        }
+
+        .copyright {
+            padding: 0 0 28px;
+            color: #6b6b70;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .float-brand {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 80;
+            display: grid;
+            place-items: center;
+            width: 42px;
+            height: 42px;
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--brand), var(--brand-dark));
+            border: 0;
+            border-radius: 10px;
+            box-shadow: 0 18px 40px rgba(239, 71, 23, 0.30);
+            font-weight: 900;
+        }
+
+        @media (max-width: 1120px) {
+            .game-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
+            .order-grid,
+            .invoice-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .side {
+                position: static;
+            }
+        }
+
+        @media (max-width: 840px) {
+            :root {
+                --header-offset: 194px;
+            }
+
+            .header-main {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                padding: 11px 0;
+            }
+
+            .brand-logo {
+                justify-content: flex-start;
+            }
+
+            .header-actions {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .trust-row,
+            .step-grid,
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .login-shell {
+                grid-template-columns: 1fr;
+            }
+
+            .login-art {
+                min-height: 360px;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .container-main {
+                width: min(100% - 22px, 1180px);
+            }
+
+            .banner-section {
+                padding-top: 28px;
+            }
+
+            .banner-shell {
+                border-radius: 18px;
+                padding: 7px;
+            }
+
+            .banner-viewport {
+                border-radius: 13px;
+            }
+
+            .section-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .game-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+
+            .game-card {
+                min-height: 210px;
+            }
+
+            .game-image {
+                height: 152px;
+            }
+
+            .game-page-inner {
+                display: block;
+                padding: 30px 0 26px;
+            }
+
+            .game-cover {
+                width: 145px;
+                height: 176px;
+                margin: 0 0 18px;
+                font-size: 20px;
+            }
+
+            .trust-row,
+            .step-grid,
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nominal-grid,
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .pay-card {
+                grid-template-columns: 66px 1fr;
+            }
+
+            .pay-card .arrow {
+                display: none;
+            }
+
+            .panel-head {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .timer {
+                margin-top: 10px;
+            }
+
+            .login-shell {
+                width: min(100% - 22px, 1120px);
+                border-radius: 24px;
+            }
+
+            .login-art,
+            .login-form {
+                padding: 26px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="container-main header-main">
+                <a href="#" class="brand-logo" data-page="home">
+                    <span class="logo-mark">♛</span>
+                </a>
+
+                <div class="search-box">
+                    <input type="search" placeholder="Cari atau masukkan nama game...">
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-ui btn-orange" data-page="login">Daftar Sekarang</button>
+                    <button class="btn-ui btn-dark-ui" data-page="login">Masuk</button>
+                </div>
+            </div>
+
+            <div class="nav-wrap">
+                <nav class="container-main nav-menu">
+                    <button class="nav-btn active" data-page="home"><span class="nav-icon">▦</span>Beranda</button>
+                    <button class="nav-btn" data-page="payment"><span class="nav-icon">▣</span>Cek Pesanan</button>
+                    <button class="nav-btn"><span class="nav-icon">▥</span>Kalkulator</button>
+                    <button class="nav-btn" data-page="game"><span class="nav-icon">▶</span>Demo Game</button>
+                </nav>
+            </div>
+        </header>
+
+        <main>
+            <section class="page active" id="page-home">
+                <section class="banner-section">
+                    <div class="container-main">
+                        <div class="banner-shell">
+                            <div class="banner-viewport" aria-label="Banner promo">
+                                <div class="banner-track">
+                                    <div class="banner-image banner-1"></div>
+                                    <div class="banner-image banner-2"></div>
+                                    <div class="banner-image banner-3"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="banner-dots">
+                            <span></span>
+                            <span class="active"></span>
+                            <span></span>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="section section-block-dark">
+                    <div class="container-main">
+                        <div class="section-head">
+                            <h2 class="section-title"><span>✦</span>Popular</h2>
+                        </div>
+                        <div class="game-grid" id="popularGrid"></div>
+                    </div>
+                </section>
+
+                <section class="section">
+                    <div class="container-main">
+                        <div class="section-head">
+                            <h2 class="section-title"><span>✦</span>Produk & Layanan</h2>
+                            <div class="filter-tabs">
+                                <button class="filter-tab active">Popular</button>
+                                <button class="filter-tab">Games</button>
+                                <button class="filter-tab">Voucher</button>
+                                <button class="filter-tab">Pulsa</button>
+                                <button class="filter-tab">Joki</button>
+                            </div>
+                        </div>
+                        <div class="game-grid" id="serviceGrid"></div>
+                    </div>
+                </section>
+
+                <div data-footer></div>
+            </section>
+
+            <section class="page" id="page-game">
+                <div class="game-page-hero">
+                    <div class="container-main game-page-inner">
+                        <div class="game-cover">MAGIC<br>CHESS</div>
+                        <div class="game-info">
+                            <h1>Magic Chess: Go Go</h1>
+                            <p>Instant</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container-main section" style="padding-top: 18px;">
+                    <div class="trust-row">
+                        <div class="trust-card"><span class="trust-icon">🛡</span><div><strong>Jaminan Layanan</strong><span>Transaksi aman</span></div></div>
+                        <div class="trust-card"><span class="trust-icon">☎</span><div><strong>Layanan 24 Jam</strong><span>CS aktif</span></div></div>
+                        <div class="trust-card"><span class="trust-icon">▣</span><div><strong>Payment Lengkap</strong><span>QRIS & e-wallet</span></div></div>
+                        <div class="trust-card"><span class="trust-icon">⚡</span><div><strong>Proses Otomatis</strong><span>Cepat setelah bayar</span></div></div>
+                    </div>
+
+                    <div class="order-grid">
+                        <div class="panel">
+                            <div class="panel-head">
+                                <h3 class="panel-title"><span class="step-no">1</span>Pilih Nominal & Produk</h3>
+                                <span class="mini-label">Best Seller</span>
+                            </div>
+                            <div class="nominal-grid" id="nominalGrid"></div>
+                        </div>
+
+                        <aside class="side">
+                            <button class="btn-ui btn-orange" style="width:100%;min-height:48px;">ⓘ Lihat Cara Pembelian</button>
+
+                            <div class="panel">
+                                <div class="panel-head">
+                                    <h3 class="panel-title"><span class="step-no">2</span>Informasi Pesanan</h3>
+                                </div>
+                                <div class="pad">
+                                    <div class="input-row">
+                                        <input class="input" placeholder="Masukkan User ID">
+                                        <input class="input" placeholder="Masukkan Zone ID">
+                                    </div>
+                                    <p class="hint">Pastikan User ID dan Zone ID benar sebelum lanjut transaksi.</p>
+                                    <div style="display:grid;grid-template-columns:1fr 48px;gap:10px;margin-top:12px;">
+                                        <input class="input" placeholder="Nomor WhatsApp">
+                                        <button class="btn-ui btn-orange" style="padding:0;">✆</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="panel">
+                                <div class="panel-head">
+                                    <h3 class="panel-title"><span class="step-no">3</span>Pilih Pembayaran</h3>
+                                </div>
+                                <div class="pay-list">
+                                    <div class="pay-card active">
+                                        <div class="pay-logo">QRIS-1</div>
+                                        <div><strong>QRIS - DANA, OVO, GOPAY, SHOPEEPAY</strong><span>Langsung masuk</span></div>
+                                        <b class="arrow">✓</b>
+                                    </div>
+                                    <div class="pay-card">
+                                        <div class="pay-logo">QRIS-2</div>
+                                        <div><strong>QRIS - DANA, GOPAY, OVO, LINK AJA</strong><span>All payment</span></div>
+                                        <b class="arrow">›</b>
+                                    </div>
+                                </div>
+                                <div class="pay-accordion">
+                                    <button class="pay-toggle">💳 E-Wallet <span>⌄</span></button>
+                                    <button class="pay-toggle">🏦 Bank Transfer <span>⌄</span></button>
+                                    <button class="pay-toggle">▣ Virtual Account <span>⌄</span></button>
+                                    <button class="pay-toggle">🏪 Convenience Store <span>⌄</span></button>
+                                    <button class="pay-toggle">📱 Pulsa <span>⌄</span></button>
+                                </div>
+                                <div class="checkout-area">
+                                    <button class="btn-ui btn-orange" data-page="payment">Bayar Sekarang →</button>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+                <div data-footer></div>
+            </section>
+
+            <section class="page" id="page-payment">
+                <div class="invoice-hero">
+                    <div class="invoice-hero-content">
+                        <span class="mini-label">Terima Kasih</span>
+                        <h1>Harap Lengkapi Pembayaran</h1>
+                        <p>Pesanan kamu <b>E4R120260513134388</b> menunggu pembayaran sebelum diproses.</p>
+                    </div>
+                </div>
+
+                <div class="container-main section" style="padding-top:0;">
+                    <div class="step-grid">
+                        <div class="step-card"><div class="step-top"><span class="step-icon">▤</span><div><strong>Pesanan Mulai</strong><span>05/13/2026, 01:34 PM</span></div></div></div>
+                        <div class="step-card"><div class="step-top"><span class="step-icon">◷</span><div><strong>Menunggu Bayar</strong><span>Unpaid</span></div></div></div>
+                        <div class="step-card off"><div class="step-top"><span class="step-icon">▣</span><div><strong>Pengiriman</strong><span>Belum dibayar</span></div></div></div>
+                        <div class="step-card off"><div class="step-top"><span class="step-icon">✓</span><div><strong>Selesai</strong><span>Menunggu</span></div></div></div>
+                    </div>
+
+                    <div class="invoice-grid">
+                        <div>
+                            <div class="panel">
+                                <div class="panel-head">
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <span class="logo-mark" style="width:48px;height:48px;font-size:22px;">♛</span>
+                                        <div>
+                                            <h3 style="margin:0;font-size:18px;font-weight:900;">Free Fire</h3>
+                                            <p style="margin:3px 0 0;color:var(--muted-2);font-weight:750;">Level Up Pass - Level 6</p>
+                                        </div>
+                                    </div>
+                                    <div class="timer"><span>23</span><span>59</span><span>53</span></div>
+                                </div>
+                                <div class="pad">
+                                    <h3 style="margin:0 0 6px;font-size:16px;font-weight:900;">Scan QR di bawah ini</h3>
+                                    <p class="hint" style="margin-top:0;">Bayar sesuai nominal agar pesanan diproses otomatis.</p>
+                                    <div class="qr-zone"><div class="qr"></div></div>
+                                    <div class="detail-row"><span>Total Pembayaran</span><strong>Rp 5.145</strong></div>
+                                    <div style="display:flex;justify-content:space-between;gap:16px;align-items:center;margin-top:18px;">
+                                        <div>
+                                            <strong>Pesanan belum masuk?</strong>
+                                            <p class="hint" style="margin-top:4px;">Hubungi CS untuk konfirmasi.</p>
+                                        </div>
+                                        <button class="btn-ui btn-orange">Kontak Kami</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="guide-box">
+                                <h3>Informasi Cara Pembayaran</h3>
+                                <ol>
+                                    <li>Screenshot QR code pembayaran.</li>
+                                    <li>Buka aplikasi e-wallet atau m-banking.</li>
+                                    <li>Pilih upload QR dari galeri.</li>
+                                    <li>Pastikan nominal sesuai.</li>
+                                    <li>Lakukan pembayaran dan tunggu proses otomatis.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <aside class="panel">
+                            <div class="panel-head">
+                                <h3 class="panel-title"><span class="step-no">#</span>Rincian Pembayaran</h3>
+                            </div>
+                            <div class="pad">
+                                <div class="detail-row"><span>Invoice ID</span><strong>E4R120260513134438</strong></div>
+                                <div class="detail-row"><span>Metode</span><strong>QRIS-2</strong></div>
+                                <div class="detail-row"><span>Produk</span><strong>Level Up Pass - Level 6</strong></div>
+                                <div class="detail-row"><span>Nickname</span><strong>deadshc</strong></div>
+                                <div class="detail-row"><span>ID Game</span><strong>1231</strong></div>
+                                <div class="detail-row"><span>No. HP</span><strong>081231</strong></div>
+                                <div class="detail-row"><span>Harga Produk</span><strong>Rp 5.000</strong></div>
+                                <div class="detail-row"><span>Fee</span><strong>Rp 145</strong></div>
+                                <div class="detail-row"><span>Status</span><strong>Menunggu Pembayaran</strong></div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+
+                <div data-footer></div>
+            </section>
+
+            <section class="page" id="page-login">
+                <div class="login-page">
+                    <div class="login-shell">
+                        <div class="login-art">
+                            <span class="logo-mark">♛</span>
+                            <h2 class="login-art-title">Member Area<br>Edi4Ria</h2>
+                            <p class="login-art-text">Login page dibuat seperti panel modern, tapi tetap pakai aura gelap, merah-oranye, dan logo maskot lama.</p>
+                        </div>
+
+                        <div class="login-form">
+                            <h1>Login Member</h1>
+                            <p>Masuk dengan akun member kamu.</p>
+
+                            <div class="field">
+                                <label>Username</label>
+                                <input class="login-input" type="text" placeholder="Masukkan username">
+                            </div>
+
+                            <div class="field">
+                                <label>Password</label>
+                                <input class="login-input" type="password" placeholder="Masukkan password">
+                            </div>
+
+                            <div class="captcha">
+                                <div style="display:flex;align-items:center;gap:12px;">
+                                    <span class="captcha-check"></span>
+                                    <span>Saya bukan robot</span>
+                                </div>
+                                <strong style="color:#6a34ff;">↻</strong>
+                            </div>
+
+                            <button class="btn-ui btn-orange login-submit">Login Sekarang</button>
+                            <div style="margin:20px 0 14px;text-align:center;color:#d8d8df;font-weight:900;">Belum punya akun?</div>
+                            <button class="btn-ui btn-dark-ui login-alt">Daftar Sekarang</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <button class="float-brand" id="toTop">↑</button>
+    </div>
+
+    <template id="footerTemplate">
+        <footer class="footer">
+            <div class="container-main footer-grid">
+                <div>
+                    <span class="logo-mark">♛</span>
+                    <h3>Edi4Ria.Com</h3>
+                    <p>Tempat top up game termurah, tercepat, dan terpercaya. Struktur lama tetap dipakai, visualnya dibuat lebih segar dan rapi.</p>
+                    <p><strong>CV.EDISON DAN ASTRIA</strong><br>WhatsApp CS: +62811-1819-909<br>Jam Online CS: 07:00 - 23:00 WIB<br>Email: Edi4Ria@gmail.com</p>
+                </div>
+                <div>
+                    <h4>Hubungi Kami</h4>
+                    <ul><li>Chat Whatsapp</li><li>Customer Service</li></ul>
+                </div>
+                <div>
+                    <h4>Games Populer</h4>
+                    <ul><li>Mobile Legends</li><li>PUBG Mobile</li><li>Free Fire</li><li>Genshin Impact</li></ul>
+                </div>
+                <div>
+                    <h4>Ikuti Kami</h4>
+                    <div class="socials"><a>f</a><a>ig</a><a>yt</a><a>tt</a></div>
+                </div>
+            </div>
+            <div class="copyright">© 2026 Edi4Ria.Com. All Rights Reserved.</div>
+        </footer>
+    </template>
+
+    <script>
+        const art = {
+            red: "radial-gradient(circle at 42% 26%, rgba(255,255,255,.24), transparent 58px), radial-gradient(circle at 70% 20%, rgba(239,71,23,.42), transparent 90px), linear-gradient(135deg, #3c1028, #8a2109 54%, #111)",
+            blue: "radial-gradient(circle at 42% 26%, rgba(255,255,255,.22), transparent 58px), radial-gradient(circle at 75% 24%, rgba(93,124,255,.42), transparent 90px), linear-gradient(135deg, #10244c, #111 54%, #8a2109)",
+            green: "radial-gradient(circle at 42% 26%, rgba(255,255,255,.22), transparent 58px), radial-gradient(circle at 72% 28%, rgba(41,227,132,.32), transparent 90px), linear-gradient(135deg, #0a463b, #111 54%, #ef4717)",
+            gray: "radial-gradient(circle at 42% 26%, rgba(255,255,255,.42), transparent 62px), radial-gradient(circle at 74% 24%, rgba(255,255,255,.25), transparent 95px), linear-gradient(135deg, #eeeeee, #888 48%, #111)",
+            purple: "radial-gradient(circle at 42% 26%, rgba(255,255,255,.22), transparent 58px), radial-gradient(circle at 72% 24%, rgba(155,92,255,.44), transparent 95px), linear-gradient(135deg, #451066, #121212 54%, #ef4717)",
+            orange: "radial-gradient(circle at 42% 26%, rgba(255,255,255,.18), transparent 58px), radial-gradient(circle at 76% 24%, rgba(255,177,94,.38), transparent 95px), linear-gradient(135deg, #ec6d19, #171717 58%, #8a2109)"
+        };
+
+        const popularProducts = [
+            ["MLBB (Indonesia)", "red"],
+            ["Free Fire", "blue"],
+            ["MLBB (Malaysia)", "red"],
+            ["MLBB (Philippines)", "red"],
+            ["Bigo Live", "green"],
+            ["VOUCHER : Roblox", "gray"],
+            ["MLBB (Singapore)", "red"],
+            ["VOUCHER : Nintendo", "orange"],
+            ["PUBGM (ID)", "blue"],
+            ["MLBB First Top Up", "purple"],
+            ["Koin TikTok Gift Card", "blue"],
+            ["Honor of Kings", "blue"],
+            ["Free Fire MAX", "orange"],
+            ["VALORANT", "blue"],
+            ["PUBGM (GLOBAL)", "blue"],
+            ["Magic Chess: Go Go", "purple"],
+            ["CALL OF DUTY : MOBILE", "green"],
+            ["Revelation Mobile", "blue"],
+            ["STEAM WALLET CODE", "gray"]
+        ];
+
+        const serviceProducts = [
+            ["Metal Slug : Awakening", "green"],
+            ["Ragnarok M Classic", "purple"],
+            ["Eggy Party", "gray"],
+            ["Dragonheir", "blue"],
+            ["Diablo IV", "red"],
+            ["Seven Knights Rebirth", "purple"],
+            ["Ragnarok Origin Global - ID", "orange"],
+            ["Ragnarok Origin Global - IN", "orange"],
+            ["LORDS MOBILE", "blue"],
+            ["HONKAI IMPACT 3", "purple"],
+            ["Night Crows - Drop Link", "gray"],
+            ["Garena Undawn", "blue"],
+            ["Point Blank", "gray"],
+            ["Super Sus", "purple"]
+        ];
+
+        const nominalProducts = [
+            ["Weekly Pass", "Rp 28.460", "🎟️"],
+            ["Weekly Pass x2", "Rp 55.921", "🎟️", "Rp 61.000"],
+            ["Weekly Pass x3", "Rp 83.382", "🎟️", "Rp 85.000"],
+            ["Weekly Pass x4", "Rp 112.881", "🎟️", "Rp 123.000"],
+            ["Weekly Pass x5", "Rp 140.476", "🎟️", "Rp 145.000"],
+            ["5 Diamonds", "Rp 1.375", "💎"],
+            ["11 Diamonds", "Rp 2.741", "💎", "Rp 3.000"],
+            ["12 Diamonds", "Rp 3.042", "💎"],
+            ["22 Diamonds", "Rp 5.299", "💎", "Rp 6.000"],
+            ["19 Diamonds", "Rp 5.664", "💎"],
+            ["28 Diamonds", "Rp 6.914", "💎"],
+            ["44 Diamonds", "Rp 11.547", "💎"],
+            ["56 Diamonds", "Rp 14.094", "💎", "Rp 15.500"],
+            ["100 Diamonds First Recharge", "Rp 14.821", "💎"],
+            ["85 Diamonds", "Rp 22.245", "💎"],
+            ["223 Diamonds", "Rp 53.012", "💎", "Rp 58.500"],
+            ["568 Diamonds", "Rp 132.984", "💎"],
+            ["6042 Diamonds", "Rp 1.334.118", "💎", "Rp 1.440.000"]
+        ];
+
+        function gameCard(item, service = false) {
+            const title = item[0];
+            const image = art[item[1]] || art.red;
+
+            return `
+                <article class="game-card ${service ? "service-card" : ""}" data-page="game">
+                    <div class="game-image" style="--image: ${image};">
+                        <div class="game-art-title">${title}</div>
+                    </div>
+                    <div class="game-title-bar">${title}</div>
+                    ${service ? `<div class="game-instant">Instant</div>` : ""}
+                </article>
+            `;
+        }
+
+        function nominalCard(item, index) {
+            const oldPrice = item[3] ? `<span class="old-price">${item[3]}</span>` : "";
+
+            return `
+                <article class="nominal-card ${index === 0 ? "active" : ""}">
+                    <div class="nominal-icon">${item[2]}</div>
+                    <div>
+                        <h4 class="nominal-name">${item[0]}</h4>
+                        ${oldPrice}
+                        <div class="price">${item[1]}</div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function render() {
+            document.getElementById("popularGrid").innerHTML = popularProducts.map((item) => gameCard(item, false)).join("");
+            document.getElementById("serviceGrid").innerHTML = serviceProducts.map((item) => gameCard(item, true)).join("");
+            document.getElementById("nominalGrid").innerHTML = nominalProducts.map(nominalCard).join("");
+
+            const footer = document.getElementById("footerTemplate");
+            document.querySelectorAll("[data-footer]").forEach((target) => {
+                target.appendChild(footer.content.cloneNode(true));
+            });
+        }
+
+        function showPage(name) {
+            document.querySelectorAll(".page").forEach((page) => {
+                page.classList.remove("active");
+            });
+
+            document.getElementById(`page-${name}`).classList.add("active");
+
+            document.querySelectorAll(".nav-btn").forEach((item) => {
+                item.classList.toggle("active", item.dataset.page === name);
+            });
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        }
+
+        document.addEventListener("click", (event) => {
+            const pageTrigger = event.target.closest("[data-page]");
+            const nominal = event.target.closest(".nominal-card");
+            const payment = event.target.closest(".pay-card");
+
+            if (pageTrigger) {
+                event.preventDefault();
+                showPage(pageTrigger.dataset.page);
+            }
+
+            if (nominal) {
+                document.querySelectorAll(".nominal-card").forEach((card) => card.classList.remove("active"));
+                nominal.classList.add("active");
+            }
+
+            if (payment) {
+                document.querySelectorAll(".pay-card").forEach((card) => card.classList.remove("active"));
+                payment.classList.add("active");
+            }
+        });
+
+        document.getElementById("toTop").addEventListener("click", () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+
+        render();
+    </script>
+</body>
+</html>
